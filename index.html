@@ -3,125 +3,521 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All About Cats</title>
+    <title>Dark Cats Universe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS стили */
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #e2e2e2;
+            --accent: #00cec9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
             line-height: 1.6;
-            color: #333;
+        }
+        
+        /* Навигация */
+        nav {
+            background-color: var(--darker);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #010101;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        /* Основной контент */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
         
         header {
             text-align: center;
-            padding: 40px 0;
-            border-bottom: 1px solid #ddd;
+            padding: 5rem 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center/cover;
+            border-radius: 10px;
+            margin-bottom: 3rem;
         }
         
         h1 {
-            font-size: 2.5em;
-            color: #2c3e50;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
         
         h2 {
-            font-size: 1.8em;
-            color: #3498db;
-            margin-top: 40px;
-        }
-        
-        section {
-            margin: 40px 0;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .button {
+            font-size: 2.5rem;
+            margin: 2rem 0;
+            color: var(--secondary);
+            position: relative;
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #3498db;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Секции */
+        section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background-color: var(--darker);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Галерея */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 250px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 1rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+        
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 15px;
-            transition: background-color 0.3s;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
         }
         
-        .button:hover {
-            background-color: #2980b9;
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
         }
         
-        hr {
-            border: 0;
-            height: 1px;
-            background: #ddd;
-            margin: 40px 0;
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
         }
         
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Футер */
         footer {
+            background-color: var(--darker);
+            padding: 3rem 0;
             text-align: center;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 0.9em;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+        
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-section ul li a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>ALL ABOUT CATS</h1>
-        <p>Welcome to our website dedicated to cat history, breeds, and care.</p>
-    </header>
+    <!-- Навигация -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">DarkCats</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="breeds.html">Breeds</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
     
-    <section>
-        <h2>LEARN MORE</h2>
-        <a href="#about" class="button">Explore</a>
-    </section>
+    <!-- Основной контент -->
+    <div class="container">
+        <header class="fade-in">
+            <h1>Welcome to Dark Cats Universe</h1>
+            <p>Discover the mysterious world of our feline friends in a whole new dark aesthetic</p>
+            <a href="#explore" class="btn">Explore More</a>
+        </header>
+        
+        <section id="explore" class="fade-in delay-1">
+            <h2>Why Cats Are Amazing</h2>
+            <p>Cats have been companions to humans for thousands of years. Their elegant movements, independent nature, and mysterious personalities have captivated people across cultures and time periods.</p>
+            <p>In ancient Egypt, cats were revered as sacred animals. Today, they continue to enchant us with their beauty and unique behaviors.</p>
+            <a href="about.html" class="btn btn-outline">Learn About Cat History</a>
+        </section>
+        
+        <section class="fade-in delay-2">
+            <h2>Featured Breeds</h2>
+            <p>From the sleek Siamese to the fluffy Maine Coon, each cat breed has its own unique characteristics. Some are talkative, others are quiet; some love to cuddle, others prefer their independence.</p>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Siamese Cat">
+                    <div class="overlay">
+                        <h3>Siamese</h3>
+                        <p>Vocal and social</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Maine Coon">
+                    <div class="overlay">
+                        <h3>Maine Coon</h3>
+                        <p>Gentle giant</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Scottish Fold">
+                    <div class="overlay">
+                        <h3>Scottish Fold</h3>
+                        <p>Distinctive ears</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Bengal Cat">
+                    <div class="overlay">
+                        <h3>Bengal</h3>
+                        <p>Wild appearance</p>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="breeds.html" class="btn">View All Breeds</a>
+        </section>
+        
+        <section class="fade-in delay-3">
+            <h2>Cat Care Tips</h2>
+            <p>Proper care is essential for your cat's health and happiness. Here are some basic tips:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                <li>Provide fresh water and quality food daily</li>
+                <li>Keep the litter box clean</li>
+                <li>Schedule regular veterinary check-ups</li>
+                <li>Provide scratching posts and toys</li>
+                <li>Brush your cat regularly (especially long-haired breeds)</li>
+            </ul>
+            <a href="contact.html" class="btn btn-outline">Get More Care Advice</a>
+        </section>
+    </div>
     
-    <hr>
-    
-    <section id="about">
-        <h2>ABOUT CATS</h2>
-        <p>Cats have a long history of domestication, dating back to ancient civilizations. Early documentation shows they were valued for their ability to hunt pests and their elegant companionship. Over time, cats have become beloved pets worldwide.</p>
-    </section>
-    
-    <section id="breeds">
-        <h2>CAT BREEDS</h2>
-        <p>Diverse varieties of cats exist today, with distinct breeds featuring unique characteristics, appearances, and personalities. From playful tabbies to majestic Maine Coons, there's a breed for every cat lover.</p>
-        <a href="#breeds" class="button">VIEW BREEDS</a>
-    </section>
-    
+    <!-- Футер -->
     <footer>
-        <p>&copy; 2023 All About Cats. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>DarkCats</h3>
+                <p>Exploring the mysterious side of our feline friends through beautiful dark aesthetics.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="breeds.html">Breeds</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:info@darkcats.com">info@darkcats.com</a></li>
+                    <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    <li>123 Cat Street, Meowville</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 DarkCats Universe. All rights reserved.</p>
+        </div>
     </footer>
     
+    <!-- Модальное окно -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="modalImage" src="" alt="Enlarged cat photo">
+        </div>
+    </div>
+    
     <script>
-        // JavaScript для интерактивности
-        document.addEventListener('DOMContentLoaded', function() {
-            // Плавная прокрутка для ссылок
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
             });
-            
-            // Анимация при загрузке
-            const sections = document.querySelectorAll('section');
-            sections.forEach((section, index) => {
-                setTimeout(() => {
-                    section.style.opacity = '1';
-                    section.style.transform = 'translateY(0)';
-                }, 200 * index);
+        });
+        
+        // Модальное окно для галереи
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.querySelector('.close-modal');
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                modalImg.src = imgSrc;
+                modal.style.display = 'flex';
             });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.fade-in');
+            
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+            });
+            
+            setTimeout(() => {
+                animatedElements.forEach(el => {
+                    el.style.opacity = '1';
+                });
+            }, 100);
         });
     </script>
 </body>
