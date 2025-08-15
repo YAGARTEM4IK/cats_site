@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cat Gallery | DarkCats</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Общие стили (как в index.html) */
+      :root {
+        --primary: #6c5ce7;
+        --secondary: #a29bfe;
+        --dark: #1a1a2e;
+        --darker: #16213e;
+        --light: #e2e2e2;
+        --accent: #00cec9;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--dark);
+        color: var(--light);
+        line-height: 1.6;
+      }
+
+      /* Навигация (как в index.html) */
+      nav {
+        background-color: var(--darker);
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--light);
+        text-decoration: none;
+        transition: color 0.3s;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Основной контент */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .gallery-header {
+        text-align: center;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+      }
+
+      h1 {
+        font-size: 3rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+
+      .gallery-filter {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 0.5rem 1.5rem;
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        height: 300px;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.03);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .gallery-item .overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        padding: 1.5rem;
+        color: white;
+        transform: translateY(100%);
+        transition: transform 0.3s;
+      }
+
+      .gallery-item:hover .overlay {
+        transform: translateY(0);
+      }
+
+      .overlay h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+      }
+
+      /* Футер (как в index.html) */
+      footer {
+        background-color: var(--darker);
+        padding: 3rem 0;
+        text-align: center;
+        margin-top: 3rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        padding: 0 2rem;
+      }
+
+      .footer-section h3 {
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-section ul li a {
+        color: var(--light);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-section ul li a:hover {
+        color: var(--accent);
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .social-links a {
+        color: var(--light);
+        font-size: 1.5rem;
+        transition: color 0.3s;
+      }
+
+      .social-links a:hover {
+        color: var(--accent);
+      }
+
+      .copyright {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* Модальное окно */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        max-width: 90%;
+        max-height: 90%;
+        position: relative;
+      }
+
+      .modal-content img {
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: 10px;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 3rem;
+        cursor: pointer;
+      }
+
+      .modal-nav {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+        transform: translateY(-50%);
+      }
+
+      .modal-nav-btn {
+        color: white;
+        font-size: 3rem;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.3s;
+      }
+
+      .modal-nav-btn:hover {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Навигация -->
+    <nav>
+      <div class="nav-container">
+        <a href="index.html" class="logo">DarkCats</a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="breeds.html">Breeds</a>
+          <a href="gallery.html" class="active">Gallery</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+      <header class="gallery-header">
+        <h1>Cat Gallery</h1>
+        <p>Explore stunning photos of cats in all their mysterious beauty</p>
+      </header>
+
+      <div class="gallery-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="portrait">Portraits</button>
+        <button class="filter-btn" data-filter="action">Action</button>
+        <button class="filter-btn" data-filter="kittens">Kittens</button>
+        <button class="filter-btn" data-filter="black">Black Cats</button>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item" data-category="portrait">
+          <img
+            src="https://images.unsplash.com/photo-1511044568932-338cba0ad803?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Cat portrait"
+          />
+          <div class="overlay">
+            <h3>Mysterious Gaze</h3>
+            <p>Portrait of a beautiful tabby cat</p>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="black">
+          <img
+            src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Black cat"
+          />
+          <div class="overlay">
+            <h3>Midnight Shadow</h3>
+            <p>Black cat with piercing eyes</p>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="kittens">
+          <img
+            src="https://images.unsplash.com/photo-1606225457115-9b0de873c5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Kittens"
+          />
+          <div class="overlay">
+            <h3>Playful Duo</h3>
+            <p>Two kittens exploring together</p>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="action">
+          <img
+            src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Jumping cat"
+          />
+          <div class="overlay">
+            <h3>Leap of Faith</h3>
+            <p>Cat caught mid-jump</p>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="portrait">
+          <img
+            src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Fluffy cat"
+          />
+          <div class="overlay">
+            <h3>Fluffy Majesty</h3>
+            <p>Long-haired cat portrait</p>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="black">
+          <img
+            src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Panther-like cat"
+          />
+          <div class="overlay">
+            <h3>Dark Panther</h3>
+            <p>Black cat in dramatic lighting</p>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="kittens">
+          <img
+            src="https://images.unsplash.com/photo-1591769225440-811ad7d6eab2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Sleeping kitten"
+          />
+          <div class="overlay">
+            <h3>Sweet Dreams</h3>
+            <p>Kitten sleeping peacefully</p>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="action">
+          <img
+            src="https://images.unsplash.com/photo-1594149929911-78975a43d4f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            alt="Cat playing"
+          />
+          <div class="overlay">
+            <h3>Playtime</h3>
+            <p>Cat playing with a toy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>DarkCats</h3>
+          <p>
+            Exploring the mysterious side of our feline friends through
+            beautiful dark aesthetics.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="breeds.html">Breeds</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact</h3>
+          <ul>
+            <li><a href="mailto:info@darkcats.com">info@darkcats.com</a></li>
+            <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+            <li>123 Cat Street, Meowville</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="social-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; 2023 DarkCats Universe. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="imageModal">
+      <span class="close-modal">&times;</span>
+      <div class="modal-nav">
+        <span class="modal-nav-btn" id="prevBtn">&#10094;</span>
+        <span class="modal-nav-btn" id="nextBtn">&#10095;</span>
+      </div>
+      <div class="modal-content">
+        <img id="modalImage" src="" alt="Enlarged cat photo" />
+      </div>
+    </div>
+
+    <script>
+      // Фильтрация галереи
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const galleryItems = document.querySelectorAll(".gallery-item");
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Удаляем active у всех кнопок
+          filterBtns.forEach((btn) => btn.classList.remove("active"));
+          // Добавляем active к текущей
+          btn.classList.add("active");
+
+          const filter = btn.dataset.filter;
+
+          galleryItems.forEach((item) => {
+            if (filter === "all" || item.dataset.category === filter) {
+              item.style.display = "block";
+            } else {
+              item.style.display = "none";
+            }
+          });
+        });
+      });
+
+      // Модальное окно для галереи
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+      const closeModal = document.querySelector(".close-modal");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      let currentImageIndex = 0;
+      const images = Array.from(document.querySelectorAll(".gallery-item img"));
+
+      galleryItems.forEach((item, index) => {
+        item.addEventListener("click", () => {
+          currentImageIndex = index;
+          modalImg.src = images[currentImageIndex].src;
+          modal.style.display = "flex";
+          document.body.style.overflow = "hidden";
+        });
+      });
+
+      closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+          document.body.style.overflow = "auto";
+        }
+      });
+
+      // Навигация по модальному окну
+      function showImage(index) {
+        if (index >= images.length) {
+          currentImageIndex = 0;
+        } else if (index < 0) {
+          currentImageIndex = images.length - 1;
+        } else {
+          currentImageIndex = index;
+        }
+        modalImg.src = images[currentImageIndex].src;
+      }
+
+      prevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showImage(currentImageIndex - 1);
+      });
+
+      nextBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showImage(currentImageIndex + 1);
+      });
+
+      // Клавиатурная навигация
+      document.addEventListener("keydown", (e) => {
+        if (modal.style.display === "flex") {
+          if (e.key === "ArrowLeft") {
+            showImage(currentImageIndex - 1);
+          } else if (e.key === "ArrowRight") {
+            showImage(currentImageIndex + 1);
+          } else if (e.key === "Escape") {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
